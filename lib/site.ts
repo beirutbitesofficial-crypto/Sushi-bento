@@ -16,6 +16,8 @@ export const site = {
   instagram: "",
   directionsUrl: "https://www.google.com/maps/search/?api=1&query=Sushi+Bento+Achrafieh+Beirut",
   currency: "USD",
+  /** Preview mode: keeps Google from indexing the site. Set to false once the client approves. */
+  preview: true,
 };
 
 export function whatsappLink(text: string) {

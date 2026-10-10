@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Manrope, Mrs_Saint_Delafield, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/lib/cart";
+import { site } from "@/lib/site";
 
 const serif = Playfair_Display({ subsets: ["latin"], style: ["normal", "italic"], variable: "--font-playfair", display: "swap" });
 const script = Mrs_Saint_Delafield({ weight: "400", subsets: ["latin"], variable: "--font-script-face", display: "swap" });
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
   title: "Sushi Bento — Sushi in Achrafieh, Beirut · Since 2001",
   description:
     "Sushi Bento rolls sushi by hand in Achrafieh, Beirut since 2001. Browse the full menu — maki, sashimi, dragons, boats and bento sets — and order on WhatsApp.",
+  robots: site.preview ? { index: false, follow: false } : undefined,
   icons: { icon: [{ url: "/icon.svg", type: "image/svg+xml" }] },
   openGraph: {
     title: "Sushi Bento — Rolled by hand since 2001",

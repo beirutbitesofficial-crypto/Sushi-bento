@@ -17,6 +17,7 @@ npm run build    # static site in out/  → upload anywhere (Hostinger public_ht
 | `phone` | Shown as a "Call" button. Empty hides it. |
 | `instagram` | Full Instagram URL. Empty hides it. |
 | `directionsUrl` | Google Maps link to the shop. |
+| `preview` | `true` = hidden from Google (noindex). Set to `false` when the client approves and the site goes live. |
 
 ## Structure
 
