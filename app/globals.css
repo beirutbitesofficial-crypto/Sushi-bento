@@ -1,0 +1,159 @@
+@import "tailwindcss";
+
+/* Horizontal signatures track only when there is room AND motion is welcome. */
+@custom-variant hz (@media (min-width: 1024px) and (prefers-reduced-motion: no-preference));
+
+@theme {
+  /* Sushi Bento brand — sampled from the logo (salmon square, nori ring, rice) */
+  --color-salmon: #F4773B;
+  --color-salmon-deep: #D9581F;
+  --color-nori: #45191A; /* logo ring — deep soy brown */
+  --color-ink: #0E0C0B; /* lacquer black */
+  --color-ink-2: #171413;
+  --color-rice: #F7F2EA;
+  --color-stone: #DEDAD4; /* terrazzo of the printed menu */
+  --color-wasabi: #A9C46C;
+  --color-lacquer: #8E2316; /* bento box interior red */
+
+  --font-serif: var(--font-playfair), "Didot", "Georgia", serif;
+  --font-script: var(--font-script-face), "Brush Script MT", cursive;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-jp: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", "Noto Serif CJK JP", serif;
+}
+
+html {
+  background: var(--color-ink);
+  scroll-padding-top: 80px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+@supports (overflow: clip) {
+  body {
+    overflow-x: clip;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-salmon);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+button:not(:disabled),
+[role="button"],
+a[href],
+label[for] {
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--color-salmon);
+  color: var(--color-ink);
+}
+
+@utility h-screen-s {
+  height: 100vh;
+  height: 100svh;
+}
+
+@utility h-screen-l {
+  height: 100vh;
+  height: 100lvh;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* The printed menu's grey terrazzo, as a light card surface for the dish cut-outs. */
+@utility terrazzo {
+  background-color: #e4e0da;
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='t'><feTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='2' seed='7'/><feColorMatrix values='0 0 0 0 .55  0 0 0 0 .53  0 0 0 0 .5  0 0 0 1.4 -.72'/></filter><rect width='100%' height='100%' filter='url(%23t)'/></svg>"),
+    radial-gradient(ellipse at 30% 20%, #eeebe6, #dcd8d1 70%);
+}
+
+.vignette {
+  background: radial-gradient(ellipse 75% 70% at 50% 45%, transparent 35%, rgba(8, 7, 6, 0.9) 100%);
+}
+
+/* Film grain over everything — a static noise tile nudged in steps (transform only). */
+.grain {
+  position: fixed;
+  inset: -100%;
+  z-index: 70;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+  animation: grain 1.2s steps(6) infinite;
+  will-change: transform;
+}
+
+@keyframes grain {
+  0% { transform: translate3d(0, 0, 0); }
+  20% { transform: translate3d(-3%, 2%, 0); }
+  40% { transform: translate3d(2%, -4%, 0); }
+  60% { transform: translate3d(-4%, -1%, 0); }
+  80% { transform: translate3d(3%, 3%, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+.scroll-tick {
+  animation: tick 2.2s cubic-bezier(0.7, 0, 0.3, 1) infinite;
+}
+
+@keyframes tick {
+  0% { transform: translateY(-100%); }
+  60%, 100% { transform: translateY(200%); }
+}
+
+.steam {
+  animation: steam 3.6s ease-in-out infinite;
+}
+
+@keyframes steam {
+  0% { transform: translateY(8px) scaleY(0.9); opacity: 0; }
+  40% { opacity: 0.5; }
+  100% { transform: translateY(-26px) scaleY(1.15); opacity: 0; }
+}
+
+.pop {
+  animation: pop 0.45s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+
+@keyframes pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+/* Intro elements wait for GSAP (only when JS is present). */
+.js .invisible-pre {
+  visibility: hidden;
+}
+
+@media (max-width: 767px) {
+  .grain {
+    animation: none;
+    opacity: 0.05;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .invisible-pre {
+    visibility: visible;
+  }
+  .grain,
+  .scroll-tick,
+  .steam,
+  .pop {
+    animation: none;
+  }
+}

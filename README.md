@@ -1,0 +1,35 @@
+# Sushi Bento — website
+
+Cinematic one-page site + full online menu for **Sushi Bento** (Achrafieh, Beirut — since 2001).
+Next.js (App Router) · React · TypeScript · Tailwind CSS 4 · GSAP + ScrollTrigger. Same stack and style as BASST CUT / 24i.
+
+```bash
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # static site in out/  → upload anywhere (Hostinger public_html, Netlify, Vercel…)
+```
+
+## Before going live — fill these in `lib/site.ts`
+
+| Field | What |
+| --- | --- |
+| `whatsapp` | Number that receives orders, digits only with country code (e.g. `9613123456`). Empty = the customer picks the chat. |
+| `phone` | Shown as a "Call" button. Empty hides it. |
+| `instagram` | Full Instagram URL. Empty hides it. |
+| `directionsUrl` | Google Maps link to the shop. |
+
+## Structure
+
+| File | What it does |
+| --- | --- |
+| `components/Hero.tsx` | Intro: the logo assembles like a maki (nori → rice → salmon), letter reveals, parallax |
+| `components/RollScene.tsx` | Pinned, scroll-scrubbed scene: rice on nori → rolled → yanagiba makes 7 cuts → pieces turn to face you (one is the logo) → packed in a bento box. Timeline map at the top of the file. Turns 90° on portrait phones. |
+| `components/Story.tsx` | Scrubbed word reveal + numbers |
+| `components/Signatures.tsx` | Desktop: pinned horizontal track. Mobile: swipe carousel |
+| `components/Menu.tsx` | Full menu — sticky category bar, search, photo cards / price lists / platters |
+| `components/Cart.tsx` | Floating cart + drawer → order sent as a pre-filled WhatsApp message |
+| `lib/menu.ts` | **The menu** — every item, price and photo. Edit here. |
+| `scripts/crop_images.py` | Cuts the dish photos out of the current menu pages into `public/menu/` |
+
+Menu and photos come from the printed menu on sushibento.gravitymenu.site (34 pages).
+One price to confirm: **Chef Special Roll** — the page says 7$ but a 10$ label is printed on the photo; the site uses 10$.
