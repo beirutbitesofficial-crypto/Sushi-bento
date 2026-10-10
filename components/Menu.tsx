@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { type Category, type Item, menu, money } from "@/lib/menu";
 import AddButton from "./AddButton";
+import { DishImg, usePhoto } from "./Dish";
 
 const norm = (s: string) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
 
@@ -21,12 +22,14 @@ function Tag({ tag }: { tag?: Item["tag"] }) {
 }
 
 function PhotoCard({ item }: { item: Item }) {
+  const photo = usePhoto(item.id, item.img);
   return (
     <article className="group flex flex-col overflow-hidden rounded-[22px] bg-ink-2 ring-1 ring-rice/5 transition-colors hover:ring-salmon/30">
       <div className="dish-stage relative grid aspect-[4/3] place-items-center overflow-hidden">
-        {item.img ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={`/menu/${item.img}.webp`} alt={item.name} loading="lazy" className={`relative h-full w-full transition-transform duration-500 group-hover:scale-[1.06] ${item.img.startsWith("ai/") ? "object-cover" : "dish object-contain p-5"}`} />
+        {photo ? (
+          <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-[1.06]">
+            <DishImg photo={photo} alt={item.name} />
+          </div>
         ) : (
           <span className="font-script text-5xl text-salmon/30">{item.name}</span>
         )}
@@ -49,11 +52,13 @@ function PhotoCard({ item }: { item: Item }) {
 }
 
 function ListRow({ item }: { item: Item }) {
+  const photo = usePhoto(item.id, item.img);
   return (
     <li className="flex flex-col gap-3 border-b border-dashed border-rice/10 py-5 sm:flex-row sm:items-center sm:gap-6">
-      {item.img && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={`/menu/${item.img}.webp`} alt="" loading="lazy" className={`hidden h-16 w-16 shrink-0 rounded-2xl bg-black sm:block ${item.img.startsWith("ai/") ? "object-cover" : "object-contain p-1"}`} />
+      {photo && (
+        <div className="relative hidden h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-black sm:block">
+          <DishImg photo={photo} pad="p-1" />
+        </div>
       )}
       <div className="min-w-0 flex-1">
         <div className="flex items-baseline gap-3">
@@ -70,12 +75,12 @@ function ListRow({ item }: { item: Item }) {
 }
 
 function PlatterCard({ item }: { item: Item }) {
+  const photo = usePhoto(item.id, item.img);
   return (
     <article className="flex flex-col overflow-hidden rounded-[26px] bg-ink-2 ring-1 ring-rice/5">
-      {item.img && (
-        <div className="dish-stage grid aspect-[16/9] place-items-center overflow-hidden">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={`/menu/${item.img}.webp`} alt={item.name} loading="lazy" className="dish relative h-full w-full object-contain p-4" />
+      {photo && (
+        <div className="dish-stage relative aspect-[16/9] overflow-hidden">
+          <DishImg photo={photo} alt={item.name} pad="p-4" />
         </div>
       )}
       <div className="flex flex-1 flex-col p-6">
@@ -102,6 +107,8 @@ function PlatterCard({ item }: { item: Item }) {
 }
 
 function CategoryBlock({ cat, items }: { cat: Category; items: Item[] }) {
+  const coverId = cat.cover?.replace(/^ai\//, "");
+  const cover = usePhoto(coverId, cat.cover);
   const groups = useMemo(() => {
     const g: { name?: string; items: Item[] }[] = [];
     items.forEach((it) => {
@@ -115,9 +122,10 @@ function CategoryBlock({ cat, items }: { cat: Category; items: Item[] }) {
   return (
     <section id={`cat-${cat.id}`} data-cat={cat.id} className="scroll-mt-36 pt-16 md:pt-24">
       <header className="mb-8 flex items-end gap-5 md:mb-10">
-        {cat.cover && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={`/menu/${cat.cover}.webp`} alt="" loading="lazy" className="h-16 w-16 shrink-0 rounded-full bg-black object-contain p-1.5 ring-2 ring-salmon/40 md:h-20 md:w-20" />
+        {cover && (
+          <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full bg-black ring-2 ring-salmon/40 md:h-20 md:w-20">
+            <DishImg photo={cover} pad="p-1.5" />
+          </div>
         )}
         <div className="min-w-0">
           <p className="font-script text-3xl leading-none text-salmon md:text-4xl">{cat.script}</p>
@@ -156,10 +164,11 @@ function CategoryBlock({ cat, items }: { cat: Category; items: Item[] }) {
               </div>
             ))}
           </div>
-          {cat.cover && (
-            <div className="dish-stage sticky top-40 hidden aspect-square self-start overflow-hidden rounded-[28px] lg:grid lg:place-items-center">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`/menu/${cat.cover}.webp`} alt="" loading="lazy" className={`relative h-full w-full ${cat.cover.startsWith("ai/") ? "object-cover" : "dish object-contain p-6"}`} />
+          {cover && (
+            <div className="dish-stage sticky top-40 hidden aspect-square self-start overflow-hidden rounded-[28px] lg:block">
+              <div className="relative h-full w-full">
+                <DishImg photo={cover} pad="p-6" />
+              </div>
             </div>
           )}
         </div>

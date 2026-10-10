@@ -6,7 +6,7 @@ Next.js (App Router) · React · TypeScript · Tailwind CSS 4 · GSAP + ScrollTr
 ```bash
 npm install
 npm run dev      # http://localhost:3000
-npm run build    # static site in out/  → upload anywhere (Hostinger public_html, Netlify, Vercel…)
+npm run build && npm start   # production (Vercel deploys it automatically on push)
 ```
 
 ## Before going live — fill these in `lib/site.ts`
@@ -40,3 +40,18 @@ One price to confirm: **Chef Special Roll** — the page says 7$ but a 10$ label
 `docs/image-prompts.md` has one professional food-photo prompt per item (175), all in the same black-background style
 (regenerate with `npx tsx scripts/image_prompts.mts`). Generate them in ChatGPT (one prompt per message, same chat for a consistent look), save as `ai-images/<id>.png`,
 then run `python3 scripts/use_ai_images.py` — the site swaps those items to the new photos.
+
+## Admin panel — `/admin`
+
+Phone-friendly page to change any dish photo: choose from the photo library, drag to position, zoom, "fill frame" / "show whole",
+and "restore original". Changes show on the live menu within seconds — no redeploy.
+
+One-time setup on Vercel (project → …):
+1. **Storage → Create → Blob** → connect it to this project (adds `BLOB_READ_WRITE_TOKEN` automatically).
+2. **Settings → Environment Variables** → `ADMIN_PASSWORD` = a password of 6+ characters.
+3. **Deployments → ⋯ → Redeploy**.
+
+Photos are resized in the browser (max 1600px) and stored in Vercel Blob; the settings live in `config/photos.json` there.
+Local testing: `LOCAL_STORAGE=1 ADMIN_PASSWORD=test1234 npm run build && npm start` (stores in `.data/`).
+
+The site is no longer a plain static export (the admin needs a server): deploy on Vercel, or any Node host with `npm run build && npm start`.

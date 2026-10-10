@@ -7,3 +7,4 @@ next-env.d.ts
 scripts/.cache
 ai-images/*
 !ai-images/README.txt
+.data

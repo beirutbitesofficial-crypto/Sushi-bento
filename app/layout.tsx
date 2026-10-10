@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Manrope, Mrs_Saint_Delafield, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/lib/cart";
+import { PhotosProvider } from "@/components/Dish";
 import { site } from "@/lib/site";
 
 const serif = Playfair_Display({ subsets: ["latin"], style: ["normal", "italic"], variable: "--font-playfair", display: "swap" });
@@ -37,7 +38,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }} />
       </head>
       <body className="bg-ink font-sans text-rice antialiased">
-        <CartProvider>{children}</CartProvider>
+        <PhotosProvider>
+          <CartProvider>{children}</CartProvider>
+        </PhotosProvider>
         <div className="grain" aria-hidden="true" />
       </body>
     </html>

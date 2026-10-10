@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { gsap, MQ, useGSAP } from "@/lib/gsap";
 import { aiPhotos } from "@/lib/ai-photos";
+import { DishImg, usePhoto } from "./Dish";
 import { itemCount } from "@/lib/menu";
 import { site } from "@/lib/site";
 import { SplitWords } from "./SplitText";
@@ -66,12 +67,21 @@ export default function Story() {
 
         <div className="relative mx-auto aspect-[3/4] w-full max-w-[460px]">
           <div className="dish-stage absolute inset-0 overflow-hidden rounded-t-[999px] rounded-b-[28px]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={`/menu/${aiPhotos.includes("volcano-hill") ? "ai/" : ""}volcano-hill.webp`} alt="Volcano Hill — a tower of nori rolls with shrimp tempura and spicy sauce" className={`story-photo absolute inset-0 h-full w-full ${aiPhotos.includes("volcano-hill") ? "object-cover" : "dish object-contain object-bottom px-6 pt-16"}`} loading="lazy" />
+            <StoryPhoto />
           </div>
           <p className="absolute -bottom-8 -left-4 rotate-[-8deg] font-script text-6xl text-salmon md:-left-12 md:text-7xl">Volcano Hill</p>
         </div>
       </div>
     </section>
+  );
+}
+
+function StoryPhoto() {
+  const img = aiPhotos.includes("volcano-hill") ? "ai/volcano-hill" : "volcano-hill";
+  const photo = usePhoto("volcano-hill", img);
+  return (
+    <div className="story-photo absolute inset-0">
+      <DishImg photo={photo} alt="Volcano Hill — a tower of nori rolls with shrimp tempura and spicy sauce" pad="px-6 pt-16" />
+    </div>
   );
 }
