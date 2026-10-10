@@ -34,3 +34,9 @@ npm run build    # static site in out/  → upload anywhere (Hostinger public_ht
 
 Menu and photos come from the printed menu on sushibento.gravitymenu.site (34 pages).
 One price to confirm: **Chef Special Roll** — the page says 7$ but a 10$ label is printed on the photo; the site uses 10$.
+
+## AI photos (optional)
+
+`docs/image-prompts.md` has one professional food-photo prompt per item (175), all in the same black-background style
+(regenerate with `npx tsx scripts/image_prompts.mts`). Generate them in any image AI, save as `ai-images/<id>.png`,
+then run `python3 scripts/use_ai_images.py` — the site swaps those items to the new photos.

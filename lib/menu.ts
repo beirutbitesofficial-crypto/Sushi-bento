@@ -5,6 +5,8 @@
  * Edit freely: add `soldOut: true` to hide the add button, change a price, add an item.
  */
 
+import { aiPhotos } from "./ai-photos";
+
 export type Variant = { label: string; price: number };
 
 export type Item = {
@@ -440,6 +442,9 @@ export const menu: Category[] = [
     ],
   },
 ];
+
+// AI-generated photos (scripts/use_ai_images.py) replace the menu-page cut-outs when present.
+for (const c of menu) for (const i of c.items) if (aiPhotos.includes(i.id)) i.img = `ai/${i.id}`;
 
 export const allItems = menu.flatMap((c) => c.items.map((i) => ({ ...i, category: c.id })));
 export const itemCount = allItems.reduce((n, i) => n + (i.variants?.length ?? 1), 0);
