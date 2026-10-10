@@ -53,7 +53,7 @@ function ListRow({ item }: { item: Item }) {
     <li className="flex flex-col gap-3 border-b border-dashed border-rice/10 py-5 sm:flex-row sm:items-center sm:gap-6">
       {item.img && (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={`/menu/${item.img}.webp`} alt="" loading="lazy" className="hidden h-16 w-16 shrink-0 rounded-2xl bg-black object-contain p-1 sm:block" />
+        <img src={`/menu/${item.img}.webp`} alt="" loading="lazy" className={`hidden h-16 w-16 shrink-0 rounded-2xl bg-black sm:block ${item.img.startsWith("ai/") ? "object-cover" : "object-contain p-1"}`} />
       )}
       <div className="min-w-0 flex-1">
         <div className="flex items-baseline gap-3">

@@ -149,8 +149,8 @@ export const menu: Category[] = [
     title: "Sashimi",
     script: "just the fish",
     note: "1 piece per order",
-    cover: "sashimi-board",
-    layout: "list",
+    cover: "sashimi-tuna",
+    layout: "photo",
     items: [
       { id: "sashimi-salmon", name: "Salmon", price: 2.5 },
       { id: "sashimi-tuna", name: "Tuna", price: 3 },
@@ -166,7 +166,7 @@ export const menu: Category[] = [
     title: "Sushi",
     script: "nigiri",
     note: "1 piece per order",
-    cover: "sushi-board",
+    cover: "sushi-salmon",
     layout: "list",
     items: [
       { id: "sushi-salmon", name: "Salmon", price: 2.75 },
