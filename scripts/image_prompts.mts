@@ -71,7 +71,7 @@ function subject(cat: Category, item: Item): string {
   }
 }
 
-const rows = menu.flatMap((cat) => cat.items.map((item) => ({ cat, item, file: `${item.id}.png`, prompt: `${subject(cat, item)}. ${STYLE}.` })));
+const rows = menu.flatMap((cat) => cat.items.map((item) => ({ cat, item, file: `${item.id}.png`, prompt: `Create a photorealistic square (1:1) image: ${subject(cat, item)}. Style: ${STYLE}.` })));
 
 const md = [
   "# Sushi Bento — AI photo prompts",
@@ -79,8 +79,10 @@ const md = [
   `${rows.length} prompts, one per menu item. Same style for all of them so the menu looks like one photoshoot.`,
   "",
   "**How to use**",
-  "1. Generate each image (Midjourney, Ideogram, ChatGPT/DALL·E, Flux…), **square 1:1**. Midjourney: add `--ar 1:1 --style raw --v 7`.",
-  "2. Save it with the exact file name shown (e.g. `california.png`) into the `ai-images/` folder.",
+  "1. Open ChatGPT and paste one prompt per message (it makes one image per message). Each prompt already asks for a square photorealistic image.",
+  "   For a consistent look, keep all of them in **one chat** and after the first good image say: *keep exactly this lighting, angle and black background for the next ones*.",
+  "   If ChatGPT adds text or a logo, reply: *same image, remove all text*.",
+  "2. Download the image and save it with the exact file name shown (e.g. `california.png`) into the `ai-images/` folder — or send it to Claude.",
   "3. Run `python3 scripts/use_ai_images.py` — it converts them and the site uses them automatically instead of the old photos.",
   "",
   "Tip: AI can get rolls slightly wrong — compare with the real dish before publishing.",

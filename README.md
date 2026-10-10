@@ -38,5 +38,5 @@ One price to confirm: **Chef Special Roll** — the page says 7$ but a 10$ label
 ## AI photos (optional)
 
 `docs/image-prompts.md` has one professional food-photo prompt per item (175), all in the same black-background style
-(regenerate with `npx tsx scripts/image_prompts.mts`). Generate them in any image AI, save as `ai-images/<id>.png`,
+(regenerate with `npx tsx scripts/image_prompts.mts`). Generate them in ChatGPT (one prompt per message, same chat for a consistent look), save as `ai-images/<id>.png`,
 then run `python3 scripts/use_ai_images.py` — the site swaps those items to the new photos.
