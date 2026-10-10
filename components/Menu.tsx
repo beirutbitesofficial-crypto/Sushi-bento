@@ -71,7 +71,7 @@ function ListRow({ item }: { item: Item }) {
 
 function PlatterCard({ item }: { item: Item }) {
   return (
-    <article className="flex flex-col overflow-hidden rounded-[26px] bg-rice text-ink">
+    <article className="flex flex-col overflow-hidden rounded-[26px] bg-ink-2 ring-1 ring-rice/5">
       {item.img && (
         <div className="dish-stage grid aspect-[16/9] place-items-center overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -82,19 +82,19 @@ function PlatterCard({ item }: { item: Item }) {
         <div className="flex items-start justify-between gap-4">
           <div>
             <h4 className="font-serif text-2xl leading-tight">{item.name}</h4>
-            <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.3em] text-salmon-deep">{item.pieces} pieces</p>
+            <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.3em] text-salmon">{item.pieces} pieces</p>
           </div>
-          <span className="font-serif text-3xl text-salmon-deep">{money(item.price)}</span>
+          <span className="font-serif text-3xl text-salmon">{money(item.price)}</span>
         </div>
         <ul className="mt-5 flex flex-wrap gap-1.5">
           {item.contents?.map((c) => (
-            <li key={c} className="rounded-full bg-ink/[0.06] px-2.5 py-1 text-[12px] text-ink/75">
+            <li key={c} className="rounded-full bg-rice/[0.06] px-2.5 py-1 text-[12px] text-rice/70">
               {c}
             </li>
           ))}
         </ul>
         <div className="mt-auto pt-6">
-          <AddButton item={item} tone="light" />
+          <AddButton item={item} />
         </div>
       </div>
     </article>

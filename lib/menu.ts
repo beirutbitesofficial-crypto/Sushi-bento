@@ -181,7 +181,6 @@ export const menu: Category[] = [
     title: "Hoso Maki",
     script: "thin rolls",
     note: "2 pieces per order",
-    cover: "hoso-board",
     layout: "list",
     items: [
       { id: "hoso-kappa", name: "Kappa", desc: "Cucumber.", price: 1.5 },
