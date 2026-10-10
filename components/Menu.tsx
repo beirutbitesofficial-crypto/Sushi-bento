@@ -26,7 +26,7 @@ function PhotoCard({ item }: { item: Item }) {
       <div className="dish-stage relative grid aspect-[4/3] place-items-center overflow-hidden">
         {item.img ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={`/menu/${item.img}.webp`} alt={item.name} loading="lazy" className="dish relative h-full w-full object-contain p-5 transition-transform duration-500 group-hover:scale-[1.06]" />
+          <img src={`/menu/${item.img}.webp`} alt={item.name} loading="lazy" className={`relative h-full w-full transition-transform duration-500 group-hover:scale-[1.06] ${item.img.startsWith("ai/") ? "object-cover" : "dish object-contain p-5"}`} />
         ) : (
           <span className="font-script text-5xl text-salmon/30">{item.name}</span>
         )}

@@ -444,7 +444,10 @@ export const menu: Category[] = [
 ];
 
 // AI-generated photos (scripts/use_ai_images.py) replace the menu-page cut-outs when present.
-for (const c of menu) for (const i of c.items) if (aiPhotos.includes(i.id)) i.img = `ai/${i.id}`;
+for (const c of menu) {
+  for (const i of c.items) if (aiPhotos.includes(i.id)) i.img = `ai/${i.id}`;
+  if (c.cover && aiPhotos.includes(c.cover)) c.cover = `ai/${c.cover}`;
+}
 
 export const allItems = menu.flatMap((c) => c.items.map((i) => ({ ...i, category: c.id })));
 export const itemCount = allItems.reduce((n, i) => n + (i.variants?.length ?? 1), 0);
