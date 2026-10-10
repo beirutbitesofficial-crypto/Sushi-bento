@@ -6,6 +6,9 @@ import { findItem, money, showcase } from "@/lib/menu";
 import AddButton from "./AddButton";
 import { SplitChars } from "./SplitText";
 
+/** Photos already shot on black fill the card; cut-outs float on the black stage. */
+const FULL_BLEED = new Set(["tatuna", "scallopos", "sweet-tuna", "salmon-tartar"]);
+
 export default function Signatures() {
   const root = useRef<HTMLElement>(null);
   const track = useRef<HTMLDivElement>(null);
@@ -61,10 +64,10 @@ export default function Signatures() {
         >
           {items.map((item, i) => (
             <article key={item.id} className="sg-card group relative flex w-[78vw] shrink-0 snap-center flex-col overflow-hidden rounded-[28px] bg-ink sm:w-[48vw] hz:w-[30vw] hz:max-w-[460px]">
-              <div className="relative aspect-[4/5] overflow-hidden hz:aspect-auto hz:h-[52vh]">
+              <div className="dish-stage relative aspect-[4/5] overflow-hidden hz:aspect-auto hz:h-[52vh]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={`/menu/${item.img}.webp`} alt={item.name} loading="lazy" className="sg-img absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]" />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-transparent" />
+                <img src={`/menu/${item.img}.webp`} alt={item.name} loading="lazy" className={`sg-img dish absolute inset-0 h-full w-full transition-transform duration-700 group-hover:scale-[1.04] ${item.img && FULL_BLEED.has(item.img) ? "object-cover" : "object-contain p-6"}`} />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink via-transparent to-transparent" />
                 <span className="absolute left-5 top-5 rounded-full bg-ink/70 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-rice/80 backdrop-blur">
                   {String(i + 1).padStart(2, "0")}
                 </span>

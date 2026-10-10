@@ -1,7 +1,10 @@
 """Cut dish photos out of Sushi Bento's existing menu pages (sushibento.gravitymenu.site).
 
 Coordinates are in the page's "preview" frame: the page scaled to fit 1100x1500.
-Run:  python3 scripts/crop_images.py   ->  public/menu/<id>.webp
+Run:  python3 scripts/crop_images.py            (crop + background removal -> public/menu/<id>.webp)
+      python3 scripts/crop_images.py crop       (step 1 only)
+      python3 scripts/crop_images.py finish ids (step 2 only, optionally for some ids)
+Needs: pip install pillow opencv-python-headless "rembg[cpu]"
 """
 import os
 import urllib.request
@@ -20,8 +23,20 @@ PAGES = {
     21: "2023/11/18.jpeg", 22: "2024/09/IMG-20240830-WA0246.jpg", 23: "2024/09/IMG-20240830-WA0247.jpg",
     24: "2026/07/IMG-20260728-WA0170.jpg", 25: "2024/07/IMG-20240726-WA0155.jpg",
     26: "2023/11/19.jpeg", 27: "2026/07/IMG-20260727-WA0072.jpg", 28: "2023/11/21.jpg",
-    31: "2026/07/IMG-20260728-WA0169.jpg", 32: "2026/07/IMG-20260728-WA0168.jpg",
+    31: "2026/07/IMG-20260728-WA0175.jpg", 32: "2026/07/IMG-20260728-WA0169.jpg",
 }
+
+# Higher-resolution copies of the same pages in the site's media library (older 2023 uploads / un-scaled originals).
+# Each crop is located on these automatically (template matching) and cut from them when found.
+HIRES = {
+    1: "2026/07/1001816645-1.jpg", 2: "2026/07/1001816647.jpg", 3: "2026/07/1001816646.jpg", 4: "2026/07/1001816644.jpg",
+    8: "2023/11/5-2.jpg", 9: "2023/11/6.jpeg", 13: "2023/11/10.jpeg", 14: "2023/11/11.jpeg", 15: "2023/11/12.jpg",
+    17: "2023/11/15.jpg", 18: "2023/11/16-scaled.jpg", 19: "2023/11/17.jpg", 20: "2023/11/13.jpg",
+    27: "2023/11/20-scaled.jpeg", 31: "2023/11/24.jpeg", 32: "2023/11/25.jpeg",
+}
+
+# Already shot on black — keep their own background.
+KEEP_BG = {"tatuna", "scallopos", "sweet-tuna", "salmon-tartar"}
 
 # id: (page, x0, y0, x1, y1, max_long_side)
 CROPS = {
@@ -100,30 +115,118 @@ CROPS = {
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CACHE = os.path.join(HERE, ".cache")
+RAW = os.path.join(CACHE, "raw")
 OUT = os.path.join(HERE, "..", "public", "menu")
 
 
-def page(n):
+def fetch(rel):
     os.makedirs(CACHE, exist_ok=True)
-    path = os.path.join(CACHE, f"{n:02d}.jpg")
+    path = os.path.join(CACHE, rel.replace("/", "_"))
     if not os.path.exists(path):
-        urllib.request.urlretrieve(BASE + PAGES[n], path)
+        urllib.request.urlretrieve(BASE + rel, path)
     return Image.open(path).convert("RGB")
 
 
-def main():
-    os.makedirs(OUT, exist_ok=True)
-    loaded = {}
+def locate(low, box, hi):
+    """Find low.crop(box) on the hi-res page. Returns the box in hi-res pixels, or None."""
+    import cv2
+    import numpy as np
+
+    f = low.width / hi.width
+    small = np.asarray(hi.resize((low.width, round(hi.height * f)), Image.LANCZOS).convert("L"))
+    tpl = np.asarray(low.crop(box).convert("L"))
+    best = (0.0, None, 1.0)
+    # Same scale first; older pages sometimes lay the photo out a bit bigger or smaller.
+    for k in [1.0] + [round(0.6 + 0.04 * i, 2) for i in range(26)]:
+        t = cv2.resize(tpl, None, fx=k, fy=k, interpolation=cv2.INTER_AREA if k < 1 else cv2.INTER_CUBIC)
+        if t.shape[0] >= small.shape[0] or t.shape[1] >= small.shape[1]:
+            continue
+        _, score, _, loc = cv2.minMaxLoc(cv2.matchTemplate(small, t, cv2.TM_CCOEFF_NORMED))
+        if score > best[0]:
+            best = (score, loc, k)
+        if k == 1.0 and score >= 0.72:
+            break
+    score, loc, k = best
+    if score < 0.7:
+        return None
+    x, y = loc
+    w, h = (box[2] - box[0]) * k, (box[3] - box[1]) * k
+    return tuple(round(v / f) for v in (x, y, x + w, y + h)), score
+
+
+def crop_all():
+    """Step 1: cut every dish (with breathing room for the background remover) from the sharpest page."""
+    os.makedirs(RAW, exist_ok=True)
+    pages, hires = {}, {}
     for key, (n, x0, y0, x1, y1, size) in CROPS.items():
-        im = loaded.setdefault(n, page(n))
-        w, h = im.size
-        s = min(1.0, 1100 / w, 1500 / h)  # preview frame (never upscaled) -> original pixels
+        low = pages.setdefault(n, fetch(PAGES[n]))
+        s = min(1.0, 1100 / low.width, 1500 / low.height)  # preview frame (never upscaled) -> original pixels
         box = tuple(round(v / s) for v in (x0, y0, x1, y1))
-        crop = im.crop(box)
-        crop.thumbnail((size, size), Image.LANCZOS)
-        crop.save(os.path.join(OUT, f"{key}.webp"), quality=80, method=6)
-    print(f"{len(CROPS)} images -> public/menu/")
+        src, how = low, "low"
+        if n in HIRES:
+            hi = hires.setdefault(n, fetch(HIRES[n]))
+            found = locate(low, box, hi)
+            if found:
+                box, score = found
+                src, how = hi, f"hi {score:.2f}"
+        # 5% margin so nothing touches the edge of the cut
+        w, h = box[2] - box[0], box[3] - box[1]
+        m = round(max(w, h) * 0.05)
+        box = (max(0, box[0] - m), max(0, box[1] - m), min(src.width, box[2] + m), min(src.height, box[3] + m))
+        src.crop(box).save(os.path.join(RAW, f"{key}.png"))
+        print(f"{key:24s} {how:8s} {box[2] - box[0]}x{box[3] - box[1]}")
+
+
+def keep_main(rgba):
+    """Drop stray bits the remover kept (menu text, arrows): keep blobs at least 12% the size of the biggest."""
+    import cv2
+    import numpy as np
+
+    a = np.asarray(rgba.getchannel("A"))
+    n, labels, stats, _ = cv2.connectedComponentsWithStats((a > 24).astype(np.uint8), connectivity=8)
+    if n <= 2:
+        return rgba
+    areas = stats[1:, cv2.CC_STAT_AREA]
+    keep = [i + 1 for i, ar in enumerate(areas) if ar >= areas.max() * 0.12]
+    mask = np.isin(labels, keep)
+    out = np.asarray(rgba).copy()
+    out[..., 3] = np.where(mask, a, 0)
+    return Image.fromarray(out, "RGBA")
+
+
+def finish_all(keys=None):
+    """Step 2: remove the grey menu background (BiRefNet), trim, and export on transparency for the black site."""
+    import onnxruntime as ort
+    from rembg import new_session, remove
+
+    opts = ort.SessionOptions()
+    opts.enable_cpu_mem_arena = False  # otherwise memory grows per image until the process is killed
+    opts.enable_mem_pattern = False
+    session = new_session("birefnet-general", sess_opts=opts)
+    os.makedirs(OUT, exist_ok=True)
+    for key in keys or CROPS:
+        size = CROPS[key][5]
+        im = Image.open(os.path.join(RAW, f"{key}.png")).convert("RGB")
+        if key in KEEP_BG:
+            out = im
+        else:
+            out = keep_main(remove(im, session=session))
+            bbox = out.getchannel("A").point(lambda a: 255 if a > 24 else 0).getbbox()
+            if bbox:
+                pad = round(max(bbox[2] - bbox[0], bbox[3] - bbox[1]) * 0.04)
+                out = out.crop((max(0, bbox[0] - pad), max(0, bbox[1] - pad), min(out.width, bbox[2] + pad), min(out.height, bbox[3] + pad)))
+        out.thumbnail((size * 2, size * 2), Image.LANCZOS)  # 2x for retina screens
+        out.save(os.path.join(OUT, f"{key}.webp"), quality=86, method=6)
+        print(key, out.size, flush=True)
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+
+    if len(sys.argv) > 1 and sys.argv[1] == "crop":
+        crop_all()
+    elif len(sys.argv) > 1 and sys.argv[1] == "finish":
+        finish_all(sys.argv[2:] or None)
+    else:
+        crop_all()
+        finish_all()

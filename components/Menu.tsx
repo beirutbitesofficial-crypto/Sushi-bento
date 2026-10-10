@@ -23,12 +23,12 @@ function Tag({ tag }: { tag?: Item["tag"] }) {
 function PhotoCard({ item }: { item: Item }) {
   return (
     <article className="group flex flex-col overflow-hidden rounded-[22px] bg-ink-2 ring-1 ring-rice/5 transition-colors hover:ring-salmon/30">
-      <div className="terrazzo relative grid aspect-[4/3] place-items-center overflow-hidden">
+      <div className="dish-stage relative grid aspect-[4/3] place-items-center overflow-hidden">
         {item.img ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={`/menu/${item.img}.webp`} alt={item.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.06]" />
+          <img src={`/menu/${item.img}.webp`} alt={item.name} loading="lazy" className="dish relative h-full w-full object-contain p-5 transition-transform duration-500 group-hover:scale-[1.06]" />
         ) : (
-          <span className="font-script text-5xl text-nori/40">{item.name}</span>
+          <span className="font-script text-5xl text-salmon/30">{item.name}</span>
         )}
         <div className="absolute left-3 top-3">
           <Tag tag={item.tag} />
@@ -53,7 +53,7 @@ function ListRow({ item }: { item: Item }) {
     <li className="flex flex-col gap-3 border-b border-dashed border-rice/10 py-5 sm:flex-row sm:items-center sm:gap-6">
       {item.img && (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={`/menu/${item.img}.webp`} alt="" loading="lazy" className="hidden h-16 w-16 shrink-0 rounded-2xl object-cover sm:block" />
+        <img src={`/menu/${item.img}.webp`} alt="" loading="lazy" className="hidden h-16 w-16 shrink-0 rounded-2xl bg-black object-contain p-1 sm:block" />
       )}
       <div className="min-w-0 flex-1">
         <div className="flex items-baseline gap-3">
@@ -73,9 +73,9 @@ function PlatterCard({ item }: { item: Item }) {
   return (
     <article className="flex flex-col overflow-hidden rounded-[26px] bg-rice text-ink">
       {item.img && (
-        <div className="terrazzo grid aspect-[16/9] place-items-center overflow-hidden">
+        <div className="dish-stage grid aspect-[16/9] place-items-center overflow-hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={`/menu/${item.img}.webp`} alt={item.name} loading="lazy" className="h-full w-full object-contain p-4" />
+          <img src={`/menu/${item.img}.webp`} alt={item.name} loading="lazy" className="dish relative h-full w-full object-contain p-4" />
         </div>
       )}
       <div className="flex flex-1 flex-col p-6">
@@ -117,7 +117,7 @@ function CategoryBlock({ cat, items }: { cat: Category; items: Item[] }) {
       <header className="mb-8 flex items-end gap-5 md:mb-10">
         {cat.cover && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={`/menu/${cat.cover}.webp`} alt="" loading="lazy" className="h-16 w-16 shrink-0 rounded-full object-cover ring-2 ring-salmon/40 md:h-20 md:w-20" />
+          <img src={`/menu/${cat.cover}.webp`} alt="" loading="lazy" className="h-16 w-16 shrink-0 rounded-full bg-black object-contain p-1.5 ring-2 ring-salmon/40 md:h-20 md:w-20" />
         )}
         <div className="min-w-0">
           <p className="font-script text-3xl leading-none text-salmon md:text-4xl">{cat.script}</p>
@@ -157,9 +157,9 @@ function CategoryBlock({ cat, items }: { cat: Category; items: Item[] }) {
             ))}
           </div>
           {cat.cover && (
-            <div className="terrazzo sticky top-40 hidden aspect-square self-start overflow-hidden rounded-[28px] lg:block">
+            <div className="dish-stage sticky top-40 hidden aspect-square self-start overflow-hidden rounded-[28px] lg:grid lg:place-items-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`/menu/${cat.cover}.webp`} alt="" loading="lazy" className="h-full w-full object-contain p-4" />
+              <img src={`/menu/${cat.cover}.webp`} alt="" loading="lazy" className="dish relative h-full w-full object-contain p-6" />
             </div>
           )}
         </div>

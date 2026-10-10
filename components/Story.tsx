@@ -64,9 +64,9 @@ export default function Story() {
         </div>
 
         <div className="relative mx-auto aspect-[3/4] w-full max-w-[460px]">
-          <div className="absolute inset-0 overflow-hidden rounded-t-[999px] rounded-b-[28px] bg-ink-2">
+          <div className="dish-stage absolute inset-0 overflow-hidden rounded-t-[999px] rounded-b-[28px]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/menu/volcano-hill.webp" alt="Volcano Hill — a tower of nori rolls with shrimp tempura and spicy sauce" className="story-photo absolute inset-0 h-[124%] w-full -translate-y-[12%] object-cover" loading="lazy" />
+            <img src="/menu/volcano-hill.webp" alt="Volcano Hill — a tower of nori rolls with shrimp tempura and spicy sauce" className="story-photo dish absolute inset-x-0 bottom-0 h-[100%] w-full object-contain object-bottom px-6 pt-16" loading="lazy" />
           </div>
           <p className="absolute -bottom-8 -left-4 rotate-[-8deg] font-script text-6xl text-salmon md:-left-12 md:text-7xl">Volcano Hill</p>
         </div>
