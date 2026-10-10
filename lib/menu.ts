@@ -120,7 +120,7 @@ export const menu: Category[] = [
     id: "hot",
     title: "Hot Dishes",
     script: "from the wok",
-    cover: "yaki-soba",
+    cover: "tep-seafood",
     layout: "list",
     items: [
       { id: "miso-soup", group: "Soup", name: "Miso Soup", desc: "Tofu cubes, wakame, spring onions.", price: 6.5 },

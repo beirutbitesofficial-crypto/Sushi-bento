@@ -159,7 +159,7 @@ function CategoryBlock({ cat, items }: { cat: Category; items: Item[] }) {
           {cat.cover && (
             <div className="dish-stage sticky top-40 hidden aspect-square self-start overflow-hidden rounded-[28px] lg:grid lg:place-items-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`/menu/${cat.cover}.webp`} alt="" loading="lazy" className="dish relative h-full w-full object-contain p-6" />
+              <img src={`/menu/${cat.cover}.webp`} alt="" loading="lazy" className={`relative h-full w-full ${cat.cover.startsWith("ai/") ? "object-cover" : "dish object-contain p-6"}`} />
             </div>
           )}
         </div>
