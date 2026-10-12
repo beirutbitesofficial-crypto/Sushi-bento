@@ -167,7 +167,7 @@ export const menu: Category[] = [
     script: "nigiri",
     note: "1 piece per order",
     cover: "sushi-salmon",
-    layout: "list",
+    layout: "photo",
     items: [
       { id: "sushi-salmon", name: "Salmon", price: 2.75 },
       { id: "sushi-tuna", name: "Tuna", price: 3.25 },
@@ -183,6 +183,7 @@ export const menu: Category[] = [
     title: "Hoso Maki",
     script: "thin rolls",
     note: "2 pieces per order",
+    cover: "hoso-salmon",
     layout: "list",
     items: [
       { id: "hoso-kappa", name: "Kappa", desc: "Cucumber.", price: 1.5 },
