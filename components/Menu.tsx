@@ -24,27 +24,25 @@ function Tag({ tag }: { tag?: Item["tag"] }) {
 function PhotoCard({ item }: { item: Item }) {
   const photo = usePhoto(item.id, item.img);
   return (
-    <article className="group flex flex-col overflow-hidden rounded-[22px] bg-ink-2 ring-1 ring-rice/5 transition-colors hover:ring-salmon/30">
-      <div className="dish-stage relative grid aspect-[4/3] place-items-center overflow-hidden">
+    <article className="group relative flex flex-col rounded-[26px] bg-gradient-to-b from-ink-2 to-ink px-3 pb-4 pt-3 text-center ring-1 ring-rice/[0.06] transition-colors hover:ring-salmon/30 md:px-4 md:pb-5">
+      <div className="relative aspect-square w-full">
         {photo ? (
-          <Plate photo={photo} alt={item.name} width="w-[66%]" inner="transition-transform duration-500 group-hover:scale-[1.08]" />
+          <Plate photo={photo} alt={item.name} width="w-[92%]" inner="transition-transform duration-500 group-hover:scale-[1.08]" />
         ) : (
-          <span className="font-script text-5xl text-salmon/30">{item.name}</span>
+          <div className="plate absolute left-1/2 top-1/2 grid aspect-square w-[92%] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-black">
+            <span className="font-script text-3xl text-salmon/40">{item.name}</span>
+          </div>
         )}
-        <div className="absolute left-3 top-3">
-          <Tag tag={item.tag} />
-        </div>
+        {item.tag && (
+          <div className="absolute left-0 top-0">
+            <Tag tag={item.tag} />
+          </div>
+        )}
+        <AddButton item={item} compact className="absolute bottom-0 right-0" />
       </div>
-      <div className="flex flex-1 flex-col gap-2 p-5">
-        <div className="flex items-baseline justify-between gap-3">
-          <h4 className="font-serif text-xl leading-tight">{item.name}</h4>
-          <span className="shrink-0 font-serif text-lg text-salmon">{priceLabel(item)}</span>
-        </div>
-        {item.desc && <p className="text-[13px] leading-relaxed text-rice/55">{item.desc}</p>}
-        <div className="mt-auto pt-3">
-          <AddButton item={item} />
-        </div>
-      </div>
+      <h4 className="mt-3 line-clamp-2 font-serif text-[15px] leading-snug md:text-lg">{item.name}</h4>
+      {item.desc && <p className="mt-1 line-clamp-2 text-[11px] leading-snug text-rice/45 md:text-[12px]">{item.desc}</p>}
+      <p className="mt-auto pt-2 font-serif text-base text-salmon md:text-lg">{priceLabel(item)}</p>
     </article>
   );
 }
@@ -133,7 +131,7 @@ function CategoryBlock({ cat, items }: { cat: Category; items: Item[] }) {
       </header>
 
       {cat.layout === "photo" && (
-        <div className="grid grid-cols-1 gap-4 min-[480px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:gap-5 lg:grid-cols-4">
           {items.map((it) => (
             <PhotoCard key={it.id} item={it} />
           ))}
