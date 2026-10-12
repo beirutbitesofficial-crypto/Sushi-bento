@@ -24,25 +24,25 @@ function Tag({ tag }: { tag?: Item["tag"] }) {
 function PhotoCard({ item }: { item: Item }) {
   const photo = usePhoto(item.id, item.img);
   return (
-    <article className="group relative flex flex-col rounded-[26px] bg-gradient-to-b from-ink-2 to-ink px-3 pb-4 pt-3 text-center ring-1 ring-rice/[0.06] transition-colors hover:ring-salmon/30 md:px-4 md:pb-5">
+    <article className="group relative flex flex-col rounded-[18px] bg-gradient-to-b from-ink-2 to-ink px-1.5 pb-3 pt-2 text-center ring-1 ring-rice/[0.06] transition-colors hover:ring-salmon/30 sm:rounded-[22px] sm:px-3 md:pb-4">
       <div className="relative aspect-square w-full">
         {photo ? (
-          <Plate photo={photo} alt={item.name} width="w-[92%]" inner="transition-transform duration-500 group-hover:scale-[1.08]" />
+          <Plate photo={photo} alt={item.name} width="w-[90%]" pad="p-2" inner="transition-transform duration-500 group-hover:scale-[1.08]" />
         ) : (
           <div className="plate absolute left-1/2 top-1/2 grid aspect-square w-[92%] -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-black">
-            <span className="font-script text-3xl text-salmon/40">{item.name}</span>
+            <span className="px-2 font-script text-xl text-salmon/40 sm:text-3xl">{item.name}</span>
           </div>
         )}
         {item.tag && (
-          <div className="absolute left-0 top-0">
+          <div className="absolute -left-0.5 -top-0.5 origin-top-left scale-[0.8] sm:scale-100">
             <Tag tag={item.tag} />
           </div>
         )}
-        <AddButton item={item} compact className="absolute bottom-0 right-0" />
+        <AddButton item={item} compact className="absolute -bottom-0.5 -right-0.5" />
       </div>
-      <h4 className="mt-3 line-clamp-2 font-serif text-[15px] leading-snug md:text-lg">{item.name}</h4>
-      {item.desc && <p className="mt-1 line-clamp-2 text-[11px] leading-snug text-rice/45 md:text-[12px]">{item.desc}</p>}
-      <p className="mt-auto pt-2 font-serif text-base text-salmon md:text-lg">{priceLabel(item)}</p>
+      <h4 className="mt-2 line-clamp-2 font-serif text-[12.5px] leading-tight sm:text-[15px] md:text-base">{item.name}</h4>
+      {item.desc && <p className="mt-1 line-clamp-2 hidden text-[11px] leading-snug text-rice/45 sm:block">{item.desc}</p>}
+      <p className="mt-auto pt-1 font-serif text-[13px] text-salmon sm:pt-2 sm:text-base">{priceLabel(item)}</p>
     </article>
   );
 }
@@ -131,7 +131,7 @@ function CategoryBlock({ cat, items }: { cat: Category; items: Item[] }) {
       </header>
 
       {cat.layout === "photo" && (
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:gap-5 lg:grid-cols-4">
+        <div className="grid grid-cols-3 gap-2 sm:grid-cols-4 sm:gap-3 md:gap-4 lg:grid-cols-5 xl:grid-cols-6">
           {items.map((it) => (
             <PhotoCard key={it.id} item={it} />
           ))}

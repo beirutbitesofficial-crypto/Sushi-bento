@@ -19,14 +19,14 @@ export default function AddButton({ item, tone = "dark", className = "", compact
         <button
           type="button"
           onClick={() => (choices ? setPicking(true) : add(item.id))}
-          className={`grid h-11 w-11 place-items-center rounded-full bg-salmon text-ink shadow-[0_8px_20px_-6px_rgba(244,119,59,0.8)] transition-transform active:scale-90 ${className}`}
+          className={`grid h-8 w-8 place-items-center rounded-full bg-salmon text-ink shadow-[0_6px_16px_-4px_rgba(244,119,59,0.8)] transition-transform active:scale-90 sm:h-10 sm:w-10 ${className}`}
           aria-label={`Add ${item.name} to order`}
         >
-          <svg className="h-4 w-4" viewBox="0 0 12 12" aria-hidden="true">
-            <path d="M6 0v12M0 6h12" stroke="currentColor" strokeWidth="2" />
+          <svg className="h-3 w-3 sm:h-3.5 sm:w-3.5" viewBox="0 0 12 12" aria-hidden="true">
+            <path d="M6 0v12M0 6h12" stroke="currentColor" strokeWidth="2.2" />
           </svg>
           {qty > 0 && (
-            <span key={qty} className="pop absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-rice px-1 text-[10px] font-bold text-ink">
+            <span key={qty} className="pop absolute -right-1.5 -top-1.5 grid h-4.5 min-w-4.5 place-items-center rounded-full bg-rice px-1 text-[10px] font-bold text-ink">
               {qty}
             </span>
           )}
