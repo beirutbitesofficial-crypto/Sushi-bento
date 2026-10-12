@@ -61,3 +61,20 @@ export function DishImg({ photo, alt = "", pad = "p-5", className = "", eager = 
     />
   );
 }
+
+/**
+ * The dish in a round "plate", centred in its (relative, sized) parent.
+ * `width` is a share of the parent's width, so it never depends on percentage heights (iOS Safari).
+ */
+export function Plate({ photo, alt = "", width = "w-[64%]", pad = "p-3", className = "", inner = "" }: { photo: Resolved; alt?: string; width?: string; pad?: string; className?: string; inner?: string }) {
+  if (!photo) return null;
+  return (
+    <div className={`absolute left-1/2 top-1/2 aspect-square -translate-x-1/2 -translate-y-1/2 ${width} ${className}`}>
+      <div className="plate absolute inset-0 overflow-hidden rounded-full bg-black">
+        <div className={`absolute inset-0 ${inner}`}>
+          <DishImg photo={photo} alt={alt} pad={pad} />
+        </div>
+      </div>
+    </div>
+  );
+}

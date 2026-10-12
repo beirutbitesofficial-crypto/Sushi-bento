@@ -4,7 +4,7 @@ import { useRef } from "react";
 import { gsap, MQ, useGSAP } from "@/lib/gsap";
 import { findItem, money, showcase } from "@/lib/menu";
 import AddButton from "./AddButton";
-import { DishImg, usePhoto } from "./Dish";
+import { Plate, usePhoto } from "./Dish";
 import { SplitChars } from "./SplitText";
 
 export default function Signatures() {
@@ -64,7 +64,7 @@ export default function Signatures() {
             <article key={item.id} className="sg-card group relative flex w-[78vw] shrink-0 snap-center flex-col overflow-hidden rounded-[28px] bg-ink sm:w-[48vw] hz:w-[30vw] hz:max-w-[460px]">
               <div className="dish-stage relative aspect-[4/5] overflow-hidden hz:aspect-auto hz:h-[52vh]">
                 <SigPhoto id={item.id} img={item.img} alt={item.name} />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink via-transparent to-transparent" />
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-ink to-transparent" />
                 <span className="absolute left-5 top-5 rounded-full bg-ink/70 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.3em] text-rice/80 backdrop-blur">
                   {String(i + 1).padStart(2, "0")}
                 </span>
@@ -90,8 +90,8 @@ export default function Signatures() {
 function SigPhoto({ id, img, alt }: { id: string; img?: string; alt: string }) {
   const photo = usePhoto(id, img);
   return (
-    <div className="sg-img absolute inset-0 transition-transform duration-700 group-hover:scale-[1.04]">
-      <DishImg photo={photo} alt={alt} pad="p-6" />
+    <div className="sg-img absolute inset-0">
+      <Plate photo={photo} alt={alt} width="w-[78%] hz:w-[min(78%,44vh)]" pad="p-5" inner="transition-transform duration-700 group-hover:scale-[1.06]" />
     </div>
   );
 }

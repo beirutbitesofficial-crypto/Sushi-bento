@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { type Item, menu } from "@/lib/menu";
 import { clamp, type PhotoMap, type PhotoSetting } from "@/lib/photos";
-import { DishImg, resolvePhoto } from "../Dish";
+import { DishImg, Plate, resolvePhoto } from "../Dish";
 import { LogoMark } from "../Logo";
 
 type Setup = { password: boolean; storage: boolean };
@@ -207,7 +207,7 @@ function PhotoList({ photos, onPick }: { photos: PhotoMap; onPick: (i: Item) => 
               return (
                 <button key={it.id} type="button" onClick={() => onPick(it)} className="overflow-hidden rounded-2xl bg-ink-2 text-left ring-1 ring-rice/5 active:scale-[0.98]">
                   <div className="dish-stage relative aspect-[4/3] overflow-hidden">
-                    {photo ? <DishImg photo={photo} pad="p-3" /> : <span className="absolute inset-0 grid place-items-center text-xs uppercase tracking-[0.2em] text-rice/30">No photo</span>}
+                    {photo ? <Plate photo={photo} width="w-[68%]" pad="p-2" /> : <span className="absolute inset-0 grid place-items-center text-xs uppercase tracking-[0.2em] text-rice/30">No photo</span>}
                     {photos[it.id] && <span className="absolute right-2 top-2 rounded-full bg-salmon px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.15em] text-ink">Custom</span>}
                   </div>
                   <p className="truncate px-3 py-2.5 text-sm">{it.name}</p>
@@ -308,22 +308,21 @@ function Editor({ item, current, onClose, onSaved }: { item: Item; current?: Pho
 
       <div className="flex-1 overflow-y-auto">
         <div className="mx-auto max-w-xl px-4 py-5">
-          <p className="mb-2 text-[11px] uppercase tracking-[0.3em] text-rice/45">Menu card · drag to position</p>
+          <p className="mb-2 text-[11px] uppercase tracking-[0.3em] text-rice/45">Menu photo · drag to position</p>
           <div
             ref={frame}
             onPointerDown={onDown}
             onPointerMove={onMove}
             onPointerUp={onUp}
             onPointerCancel={onUp}
-            className="dish-stage relative aspect-[4/3] cursor-grab touch-none overflow-hidden rounded-[22px] ring-1 ring-rice/10 active:cursor-grabbing"
+            className="plate relative mx-auto aspect-square w-[min(100%,420px)] cursor-grab touch-none overflow-hidden rounded-full bg-black active:cursor-grabbing"
           >
-            {preview ? <DishImg photo={preview} eager /> : <span className="absolute inset-0 grid place-items-center text-sm text-rice/40">No photo yet — choose one below</span>}
+            {preview ? <DishImg photo={preview} eager pad="p-4" /> : <span className="absolute inset-0 grid place-items-center text-sm text-rice/40">No photo yet — choose one below</span>}
           </div>
 
           <div className="mt-4 flex items-center gap-4">
-            <div className="dish-stage relative h-16 w-16 shrink-0 overflow-hidden rounded-2xl">{preview && <DishImg photo={preview} pad="p-1" />}</div>
-            <div className="dish-stage relative h-16 w-16 shrink-0 overflow-hidden rounded-full ring-2 ring-salmon/40">{preview && <DishImg photo={preview} pad="p-1.5" />}</div>
-            <p className="text-xs text-rice/45">Small previews: list thumbnail and category icon.</p>
+                        <div className="dish-stage relative h-16 w-16 shrink-0 overflow-hidden rounded-full ring-2 ring-salmon/40">{preview && <DishImg photo={preview} pad="p-1.5" />}</div>
+            <p className="text-xs text-rice/45">Small preview: list thumbnail and category icon.</p>
           </div>
 
           <input ref={input} type="file" accept="image/*" className="hidden" onChange={(e) => (pick(e.target.files?.[0]), (e.target.value = ""))} />

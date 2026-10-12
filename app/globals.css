@@ -160,3 +160,11 @@ label[for] {
     animation: none;
   }
 }
+
+/* Round plate frame for dish photos: thin salmon rim + warm glow underneath. */
+.plate {
+  box-shadow:
+    0 0 0 1px rgba(244, 119, 59, 0.45),
+    0 0 0 7px rgba(244, 119, 59, 0.06),
+    0 28px 60px -22px rgba(244, 119, 59, 0.45);
+}

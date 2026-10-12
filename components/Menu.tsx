@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { type Category, type Item, menu, money } from "@/lib/menu";
 import AddButton from "./AddButton";
-import { DishImg, usePhoto } from "./Dish";
+import { DishImg, Plate, usePhoto } from "./Dish";
 
 const norm = (s: string) => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
 
@@ -27,9 +27,7 @@ function PhotoCard({ item }: { item: Item }) {
     <article className="group flex flex-col overflow-hidden rounded-[22px] bg-ink-2 ring-1 ring-rice/5 transition-colors hover:ring-salmon/30">
       <div className="dish-stage relative grid aspect-[4/3] place-items-center overflow-hidden">
         {photo ? (
-          <div className="absolute inset-0 transition-transform duration-500 group-hover:scale-[1.06]">
-            <DishImg photo={photo} alt={item.name} />
-          </div>
+          <Plate photo={photo} alt={item.name} width="w-[66%]" inner="transition-transform duration-500 group-hover:scale-[1.08]" />
         ) : (
           <span className="font-script text-5xl text-salmon/30">{item.name}</span>
         )}
@@ -56,7 +54,7 @@ function ListRow({ item }: { item: Item }) {
   return (
     <li className="flex flex-col gap-3 border-b border-dashed border-rice/10 py-5 sm:flex-row sm:items-center sm:gap-6">
       {photo && (
-        <div className="relative hidden h-16 w-16 shrink-0 overflow-hidden rounded-2xl bg-black sm:block">
+        <div className="plate relative hidden h-16 w-16 shrink-0 overflow-hidden rounded-full bg-black sm:block">
           <DishImg photo={photo} pad="p-1" />
         </div>
       )}
@@ -166,9 +164,7 @@ function CategoryBlock({ cat, items }: { cat: Category; items: Item[] }) {
           </div>
           {cover && (
             <div className="dish-stage sticky top-40 hidden aspect-square self-start overflow-hidden rounded-[28px] lg:block">
-              <div className="relative h-full w-full">
-                <DishImg photo={cover} pad="p-6" />
-              </div>
+              <Plate photo={cover} width="w-[78%]" pad="p-5" />
             </div>
           )}
         </div>
