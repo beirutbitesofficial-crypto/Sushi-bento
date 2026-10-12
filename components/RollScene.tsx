@@ -273,7 +273,7 @@ export default function RollScene() {
         {[
           { n: "01", t: "Rolled by hand", s: "Seasoned rice, fresh fish, one tight roll." },
           { n: "02", t: "Cut to order", s: "Eight even pieces, one clean stroke each." },
-          { n: "03", t: "Boxed for you", s: "Every bento packed the same way since 2001." },
+          { n: "03", t: "Boxed for you", s: "Every bento packed with care, every time." },
         ].map((c, i) => (
           <div key={c.n} className={`cap cap-${i + 1} absolute inset-x-0 ${i === 0 ? "" : "invisible"}`}>
             <p className="text-[11px] font-semibold uppercase tracking-[0.5em] text-salmon">{c.n} / 03</p>
@@ -323,7 +323,7 @@ export default function RollScene() {
         <g className="box invisible">
           <rect x="400" y="240" width="800" height="420" rx="26" fill="#0B0908" stroke="#2C2623" strokeWidth="3" />
           <rect x="410" y="250" width="780" height="400" rx="20" fill="none" stroke="#8E2316" strokeOpacity="0.8" strokeWidth="2" />
-          <text x="800" y="700" textAnchor="middle" display={vertical ? "none" : undefined} fill="#F7F2EA" fillOpacity="0.4" fontSize="18" letterSpacing="9" className="font-sans">SUSHI BENTO · SINCE 2001</text>
+          <text x="800" y="700" textAnchor="middle" display={vertical ? "none" : undefined} fill="#F7F2EA" fillOpacity="0.4" fontSize="18" letterSpacing="9" className="font-sans">SUSHI BENTO · SAIDA</text>
         </g>
         {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
           <rect key={i} className="cell invisible" x={cellX(i % 4) - 88} y={cellY(Math.floor(i / 4)) - 88} width="176" height="176" rx="16" fill="#5C150D" stroke="#8E2316" strokeWidth="1.5" />

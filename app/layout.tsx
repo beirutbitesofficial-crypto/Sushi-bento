@@ -10,13 +10,13 @@ const script = Mrs_Saint_Delafield({ weight: "400", subsets: ["latin"], variable
 const sans = Manrope({ subsets: ["latin"], variable: "--font-manrope", display: "swap" });
 
 export const metadata: Metadata = {
-  title: "Sushi Bento — Sushi in Achrafieh, Beirut · Since 2001",
+  title: "Sushi Bento — Sushi in Hlaliyeh, Saida",
   description:
-    "Sushi Bento rolls sushi by hand in Achrafieh, Beirut since 2001. Browse the full menu — maki, sashimi, dragons, boats and bento sets — and order on WhatsApp.",
+    "Sushi Bento rolls sushi by hand in Hlaliyeh, Saida. Browse the full menu — maki, sashimi, dragons, boats and bento sets — and order on WhatsApp.",
   robots: site.preview ? { index: false, follow: false } : undefined,
   icons: { icon: [{ url: "/icon.svg", type: "image/svg+xml" }] },
   openGraph: {
-    title: "Sushi Bento — Rolled by hand since 2001",
+    title: "Sushi Bento — Rolled by hand in Saida",
     description: "The full Sushi Bento menu. Order in a few taps.",
     type: "website",
     images: [{ url: "/menu/tatuna.webp", alt: "TaTuna — tuna sashimi with our special sauce" }],

@@ -67,7 +67,7 @@ export default function Hero() {
   );
 
   return (
-    <section ref={root} id="top" className="relative h-screen-s min-h-[560px] w-full overflow-hidden bg-ink" aria-label="Sushi Bento — Achrafieh, Beirut">
+    <section ref={root} id="top" className="relative h-screen-s min-h-[560px] w-full overflow-hidden bg-ink" aria-label="Sushi Bento — Hlaliyeh, Saida">
       {/* Backdrop: their own TaTuna shot, pushed into the dark */}
       <div className="hero-bg hero-reveal invisible-pre absolute inset-0">
         <div
@@ -84,7 +84,7 @@ export default function Hero() {
       <div className="pointer-events-none absolute inset-0 vignette" aria-hidden="true" />
 
       <div className="hero-content relative z-10 flex h-full flex-col items-center justify-center px-5 pt-10 text-center">
-        <h1 className="sr-only">Sushi Bento — sushi rolled by hand in Achrafieh, Beirut since 2001</h1>
+        <h1 className="sr-only">Sushi Bento — sushi rolled by hand in Hlaliyeh, Saida</h1>
         <LogoMark className="hero-mark hero-reveal invisible-pre w-[min(30vw,17svh)] drop-shadow-[0_20px_60px_rgba(244,119,59,0.35)] md:w-[min(13vw,19vh)]" />
 
         <div className="relative mt-7 md:mt-9" aria-hidden="true">
@@ -94,7 +94,7 @@ export default function Hero() {
             <SplitChars text="Bento" />
           </p>
           <p className="hero-script hero-reveal invisible-pre pointer-events-none absolute -bottom-[0.95em] right-[-2%] rotate-[-6deg] font-script text-[11vw] leading-none text-salmon/90 md:text-[5.4vw]">
-            since {site.since}
+            rolled fresh
           </p>
         </div>
 
@@ -122,7 +122,7 @@ export default function Hero() {
           寿司 弁当
         </div>
         <div className="hero-corner hero-reveal invisible-pre absolute right-5 top-1/2 hidden -translate-y-1/2 text-[11px] uppercase tracking-[0.5em] text-rice/40 [writing-mode:vertical-rl] md:right-10 md:block">
-          Est. {site.since} — {site.city}
+          {site.area} — {site.city}
         </div>
         <div className="hero-corner hero-reveal invisible-pre absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-3 md:bottom-8">
           <span className="text-[11px] uppercase tracking-[0.5em] text-rice/55">Scroll</span>

@@ -4,12 +4,11 @@ import { useRef } from "react";
 import { gsap, MQ, useGSAP } from "@/lib/gsap";
 import { aiPhotos } from "@/lib/ai-photos";
 import { DishImg, usePhoto } from "./Dish";
-import { itemCount } from "@/lib/menu";
-import { site } from "@/lib/site";
+import { itemCount, menu } from "@/lib/menu";
 import { SplitWords } from "./SplitText";
 
 const LINE =
-  "Since 2001 we've been rolling sushi in Achrafieh and sending it across Beirut in little boxes. Rolled fresh, cut to order, packed with care.";
+  "In Hlaliyeh, Saida, we roll sushi by hand and send it out in little boxes. Rolled fresh, cut to order, packed with care.";
 
 export default function Story() {
   const root = useRef<HTMLElement>(null);
@@ -38,7 +37,7 @@ export default function Story() {
     { scope: root }
   );
 
-  const years = new Date().getFullYear() - site.since;
+  const rolls = menu.filter((c) => ["ura", "crispy", "special", "bento-specials", "dragons"].includes(c.id)).reduce((n, c) => n + c.items.length, 0);
 
   return (
     <section ref={root} id="story" className="relative overflow-hidden bg-ink px-5 py-28 md:px-12 md:py-40">
@@ -53,7 +52,7 @@ export default function Story() {
           </p>
           <div className="stats mt-14 grid grid-cols-3 gap-6 border-t border-rice/10 pt-8">
             {[
-              { n: `${years}`, l: "years rolling" },
+              { n: `${rolls}`, l: "signature rolls" },
               { n: `${itemCount}+`, l: "things on the menu" },
               { n: "120", l: "pieces on the Big Boat" },
             ].map((s) => (

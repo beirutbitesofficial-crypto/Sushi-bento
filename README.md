@@ -1,6 +1,6 @@
 # Sushi Bento — website
 
-Cinematic one-page site + full online menu for **Sushi Bento** (Achrafieh, Beirut — since 2001).
+Cinematic one-page site + full online menu for **Sushi Bento** (Hlaliyeh, Saida).
 Next.js (App Router) · React · TypeScript · Tailwind CSS 4 · GSAP + ScrollTrigger. Same stack and style as BASST CUT / 24i.
 
 ```bash

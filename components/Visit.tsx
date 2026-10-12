@@ -32,7 +32,17 @@ export default function Visit() {
           <p className="mt-2 font-serif text-4xl">
             {site.area}, {site.city}
           </p>
-          <p className="mt-3 text-sm text-rice/55">Delivery and pickup. Since {site.since}.</p>
+          <p className="mt-3 text-sm text-rice/55">Delivery and pickup.</p>
+          <a href={site.directionsUrl} target="_blank" rel="noopener noreferrer" className="relative mt-6 block aspect-[16/10] overflow-hidden rounded-2xl ring-1 ring-rice/10" aria-label="Open Sushi Bento in Google Maps">
+            <iframe
+              title="Sushi Bento on the map"
+              src={site.mapEmbed}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="pointer-events-none absolute inset-0 h-full w-full border-0 [filter:invert(0.9)_hue-rotate(180deg)_saturate(0.6)_brightness(0.95)]"
+            />
+            <span className="absolute bottom-3 left-3 rounded-full bg-salmon px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.2em] text-ink">Open in Maps</span>
+          </a>
           <ul className="mt-8 flex flex-wrap gap-2">
             {links.map((l) => (
               <li key={l.label}>
